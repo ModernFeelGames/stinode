@@ -1,94 +1,168 @@
-# stinode
-A module for interacting with the STiBaRC web API
+Stinode Updated!
+=================
 
-# User stuff
+**`stibarc.login()` is now depreciated!**
+In order to login, go to [STiBaRC](https://stibarc.gq), open Inspect Element, open "Application", and open "Local Storage", and copy "sess". As well as not being able to log in via the api, you can not create new accounts either.
 
-## Logging in
-A lot of functions, such as commenting or posting, will require you to log in. To log into STiBaRC, you first need an account. If you already have an account, you can log in using the ``login`` function.
+To check if your session key is valid, use `stibarc.checkSess(sess)`
 
-``stibarc.login(username, password, callback(c))``
+**Get Started**
 
-Example:
 ```
-var stibarc = require('stibarc');
-var sess = "";
-stibarc.login("username", "password", function(c) {
-	console.log(c); //C is the session key you will use later. Save it for later.
-	sess = c;
+var stibarc = require('./stinode')
+var sess = "session-key" // Save your session key, you'll need it :)
+
+stibarc.checkSess(sess);
+stibarc.getUsername(sess, function(username) {
+  console.log("Logged in as: " + username)
+});
+
+stibarc.newPost(sess, "Posted with stinode!", "A sample post using stinode!") // Will log your post id!
+
+stibarc.destroySession(sess); // Destroys a session key, this is reccomended if you don't plan on using it again.
+```
+
+
+<br/>
+
+Documentation
+------------
+
+### checkSess
+Checks if a session key is valid
+
+Arguments: session
+
+Usage:
+`stibarc.checkSess(sess)`
+
+### checkVerify
+Checks if a user is verrified
+
+Arguments: username
+
+Usage:
+`stibarc.checkSess(username)`
+
+### editPost
+edits a post, only works if you have this function enabled.
+
+Arguments: session, postId, title, content
+
+Usage:
+`stibarc.checkSess(sess, postId, title, content)`
+
+### getComments
+gets comments from a specified post
+
+Arguments: postId, callback
+
+Usage:
+```
+stibarc.getComments(postId, function(callback) {
+  var comments = callback
+  console.log(comments)
 });
 ```
 
-## Registering users
-If you don't already have an account, or wish to create one using the API, you use the ``createuser`` function.
+### getNotifs
+Gets notifications
 
-``stibarc.createuser(user);``
+Arguments: callback
 
-Example:
+Usage:
 ```
-var stibarc = require('stibarc');
-var user = {
-	username: "username", //required
-	password: "password", //also required
-	email: "email", //optional
-	name: "name", //optional
-	birthday: "bday", //optional
-	showemail: "true", //optional, if you don't want it to show, simply don't include it. It will always show if it is present
-	showname: "true", //optional, if you don't want it to show, simply don't include it. It will always show if it is present
-	showbday: "true" //optional, if you don't want it to show, simply don't include it. It will always show if it is present
-}
-stibarc.createuser(user);
-```
-
-## Updating existing users
-If you wish to update an existing account, use the ``updateuser`` function.
-
-``stibarc.updateuser(sess, user);``
-
-Example:
-```
-var stibarc = require('stibarc');
-var sess = "abcdefghijk"; //Session key you retrieved earlier
-var user = {
-	username: "username", //required
-	password: "password", //also required
-	email: "email", //optional
-	name: "name", //optional
-	birthday: "bday", //optional
-	bio: "Oofie", //optional
-	showemail: "true", //optional, if you don't want it to show, simply don't include it. It will always show if it is present
-	showname: "true", //optional, if you don't want it to show, simply don't include it. It will always show if it is present
-	showbday: "true", //optional, if you don't want it to show, simply don't include it. It will always show if it is present
-	showbio: "true" //optional, if you don't want it to show, simply don't include it. It will always show if it is present
-}
-stibarc.updateuser(sess, user);
-```
-
-## Changing passwords
-If you wish to change the password of an account, use the ``changepasswd`` function.
-
-``stibarc.changepasswd(sess, old, newpass);``
-
-Example:
-```
-var stibarc = require('stibarc');
-var sess = "abcdefghijk"; //Session key you retrieved earlier
-stibarc.changepasswd(sess, "oldpassword", "newpassword");
-```
-
-## Checking if a session is valid
-
-```
-var stibarc = require('stibarc');
-var sess = "abcdefghijk"; //Session key you retrieved earlier
-stibarc.checksess(sess, function(c) {
-	console.log(c); //returns good or bad
+stibarc.getNotifs(function(callback){
+  var notifs = callback
+  console.log(notifs)
 });
 ```
 
-## Logging out
+### getPost
+gets data for a specific post
 
+Arguments: postId, Callback
+
+Usage:
 ```
-var stibarc = require('stibarc');
-var sess = "abcdefghijk"; //Session key you retrieved earlier
-stibarc.logout(sess);
+stibarc.getPost(postId, function(callback) {
+  var post = callback
+  console.log(post)
+})
 ```
+
+### getPosts
+Gets recent posts
+
+Arguments: callback
+
+Usage:
+```
+stibarc.getPosts(function(callback) {
+  var posts = callback
+  console.log(posts)
+})
+```
+
+### getPostTitle
+Gets a specified posts title
+
+Arguments: postId, callback
+
+Usage:
+```
+stibarc.getPostTitle(postId,function(callback) {
+  var postTitle = callback
+  console.log(postTitle)
+})
+```
+
+### getUser
+Gets a users data
+
+Arguments: username, callback
+
+Usage:
+```
+stibarc.getPosts(username,function(callback) {
+  var userData = callback
+  console.log(userData)
+})
+```
+
+### getUsername
+Gets a username tied to a session key
+
+Arguments: session, callback
+
+Usage:
+```
+stibarc.getPosts(session, function(callback) {
+  var username = callback
+  console.log(username)
+})
+```
+
+### destroySession
+Destroys a session key / same as stibarc.logout
+
+Arguments: session
+
+Usage:
+`stibarc.destroySession(session)`
+
+### postComment
+Posts a comment on a given post
+
+Arguments: session, postId, content
+
+Usage:
+`stibarc.getPosts(session, postId, content)`
+
+### newPost
+Creats a new stibarc post!
+
+Arguments: session, title, content
+
+Usage:
+`stibarc.newPost(sess, title, content)`
