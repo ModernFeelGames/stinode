@@ -42,7 +42,7 @@ Checks if a user is verrified
 Arguments: username
 
 Usage:
-`stibarc.checkSess(username)`
+`stibarc.checkVerify(username)`
 
 ### editPost
 edits a post, only works if you have this function enabled.
@@ -50,7 +50,7 @@ edits a post, only works if you have this function enabled.
 Arguments: session, postId, title, content
 
 Usage:
-`stibarc.checkSess(sess, postId, title, content)`
+`stibarc.editPost(sess, postId, title, content)`
 
 ### getComments
 gets comments from a specified post
