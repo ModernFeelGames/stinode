@@ -166,3 +166,19 @@ Arguments: session, title, content
 
 Usage:
 `stibarc.newPost(sess, title, content)`
+
+### downvote
+Downvotes a given post
+
+Arguments: session, postId
+
+Usage:
+`stibarc.downvote(sess, postId)`
+
+### upvote
+Upvotes a given post
+
+Arguments: session, postId
+
+Usage:
+`stibarc.upvote(sess, postId)`
