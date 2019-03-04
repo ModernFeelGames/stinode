@@ -339,7 +339,7 @@ exports.postComment = function (session, postId, comment) {
       console.log(data)
 		});
 	});
-  req.write(`postid=${postId}&sess=${session}&comment={comment}`);
+  req.write(`postid=${postId}&sess=${session}&content=${comment}`);
 	req.end();
 };
 
@@ -363,7 +363,7 @@ exports.newPost = function (session, title, content) {
       console.log(data)
 		});
 	});
-  req.write(`sess=${session}&title=${title}&content={content}`);
+  req.write(`sess=${session}&title=${title}&content=${content}`);
 	req.end();
 };
 
@@ -413,5 +413,53 @@ exports.updatePassword = function (session, oldPassword, newPassword, newPasswor
 		});
 	});
   req.write(`sess={session}&old=${oldPassword}&new=${newPassword}&new2={newPassword2}`);
+	req.end();
+};
+
+//---------------------//
+
+exports.downvote = function (session, postId) {
+  var opts = {
+		hostname: "api.stibarc.gq",
+		path: "/downvote.sjs",
+		method: "post"
+	}
+  
+  var req = https.request(opts, function(res) {
+    var data = "";
+    
+		res.on('data', function(body) {
+			data = data+body;
+		});
+    
+		res.on('end', function() {
+      console.log(data)
+		});
+	});
+  req.write(`id=${postId}&sess=${session}`);
+	req.end();
+};
+
+//---------------------//
+
+exports.upvote = function (session, postId) {
+  var opts = {
+		hostname: "api.stibarc.gq",
+		path: "/upvote.sjs",
+		method: "post"
+	}
+  
+  var req = https.request(opts, function(res) {
+    var data = "";
+    
+		res.on('data', function(body) {
+			data = data+body;
+		});
+    
+		res.on('end', function() {
+      console.log(data)
+		});
+	});
+  req.write(`id=${postId}&sess=${session}`);
 	req.end();
 };
