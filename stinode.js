@@ -203,7 +203,7 @@ exports.getPostTitle = function (postId, call) {
 exports.getUser = function (userId, call) {
   var opts = {
 		hostname: "api.stibarc.gq",
-		path: "/getuser.sjs",
+		path: "/v3/getuser.sjs",
 		method: "POST"
 	}
   
@@ -461,5 +461,53 @@ exports.upvote = function (session, postId) {
 		});
 	});
   req.write(`id=${postId}&sess=${session}`);
+	req.end();
+};
+
+//---------------------//
+
+exports.follow = function (session, id) {
+  var opts = {
+		hostname: "api.stibarc.gq",
+		path: "/v3/follow.sjs",
+		method: "post"
+	}
+  
+  var req = https.request(opts, function(res) {
+    var data = "";
+    
+		res.on('data', function(body) {
+			data = data+body;
+		});
+    
+		res.on('end', function() {
+      console.log(data)
+		});
+	});
+  req.write(`sess=${session}&id=${id}`);
+	req.end();
+};
+
+//---------------------//
+
+exports.unfollow = function (session, id) {
+  var opts = {
+		hostname: "api.stibarc.gq",
+		path: "/v3/unfollow.sjs",
+		method: "post"
+	}
+  
+  var req = https.request(opts, function(res) {
+    var data = "";
+    
+		res.on('data', function(body) {
+			data = data+body;
+		});
+    
+		res.on('end', function() {
+      console.log(data)
+		});
+	});
+  req.write(`sess=${session}&id=${id}`);
 	req.end();
 };
